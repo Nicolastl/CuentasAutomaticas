@@ -1,7 +1,8 @@
 @extends('plantilla')
 @section('seccion')
     <h1>Lista Electricidad</h1>
-    <table id="example23" class="table table-bordered table-striped">
+    <div class="table-responsive m-t-40">
+    <table id="example" class="table">
         <thead>
         <tr>
             <th scope="col">#id</th>
@@ -18,31 +19,48 @@
         <tbody>
 
         @foreach($elec as $n)
+            <?php
+            setlocale(LC_ALL,"es_ES");
+            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            $mes = $meses[(date("m",strtotime($n->fecha))) - 1];
+            $fecha = strftime($mes."/%Y", strtotime($n->fecha));
+            ?>
             <tr>
                 <th scope="row">{{$n->id}}</th>
                 <td>Casa</td>
-                <td>{{$n->fecha}}</td>
-                <td>{{number_format(intval($n->admin/3),0,",",".")}}</td>
-                <td>{{number_format(intval(($n->electricidad / $n->kwhtotal)*$n->consumo_casa),0,",",".")}}</td>
-                <td>{{number_format(intval($n->consumo_casa),0,",",".")}}</td>
-                <td>{{number_format(intval($n->coordinacion/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->otro/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->valor_casa),0,",",".")}}</td>
+                <td>{{$fecha}}</td>
+                <td>${{number_format(intval($n->admin/3),0,",",".")}}</td>
+                <td>${{number_format(intval(($n->electricidad / $n->kwhtotal)*$n->consumo_casa),0,",",".")}}</td>
+                <td>{{number_format(intval($n->consumo_casa),0,",",".")}}Kw</td>
+                <td>${{number_format(intval($n->coordinacion/3),0,",",".")}}</td>
+                <td>${{number_format(intval($n->otro/3),0,",",".")}}</td>
+                <td>${{number_format(intval($n->valor_casa),0,",",".")}}</td>
             </tr><tr>
                 <th scope="row">{{$n->id}}</th>
                 <td>General</td>
-                <td>{{$n->fecha}}</td>
-                <td>{{number_format(intval($n->admin),0,",",".")}}</td>
-                <td>{{number_format(intval($n->electricidad),0,",",".")}}</td>
-                <td>{{number_format(intval($n->kwhtotal),0,",",".")}}</td>
-                <td>{{number_format(intval($n->coordinacion),0,",",".")}}</td>
-                <td>{{number_format(intval($n->otro),0,",",".")}}</td>
-                <td>{{number_format(intval($n->valor_total),0,",",".")}}</td>
+                <td>{{$fecha}}</td>
+                <td>${{number_format(intval($n->admin),0,",",".")}}</td>
+                <td>${{number_format(intval($n->electricidad),0,",",".")}}</td>
+                <td>{{number_format(intval($n->kwhtotal),0,",",".")}}Kw</td>
+                <td>${{number_format(intval($n->coordinacion),0,",",".")}}</td>
+                <td>${{number_format(intval($n->otro),0,",",".")}}</td>
+                <td>${{number_format(intval($n->valor_total),0,",",".")}}</td>
             </tr>
         @endforeach()
         </tbody>
+        <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Sector</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Administracion</th>
+            <th scope="col">Valor Electricidad</th>
+            <th scope="col">Consumo KWh</th>
+            <th scope="col">Coordinacion</th>
+            <th scope="col">Otro</th>
+            <th scope="col">Total</th>
+        </tr>
     </table>
-
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -77,8 +95,20 @@
 
 
 
-    $(document).ready(function() {
-        $('#example23').DataTable();
+    $('#example23').dataTable( {
+
+        "paging": true,
+
+        "order": [[ 5, "asc" ]],
+
+        "language": {
+
+            "search": "Filtrar:"
+
+        },
+
+        "bInfo" : false
+
     } );
 
 </script>

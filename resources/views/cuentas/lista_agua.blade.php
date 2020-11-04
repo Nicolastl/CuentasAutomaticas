@@ -9,6 +9,7 @@
             <th scope="col">Fecha</th>
             <th scope="col">Cargo Fijo</th>
             <th scope="col">Consumo</th>
+            <th scope="col">Consumo (Lt)</th>
             <th scope="col">Recolección</th>
             <th scope="col">Tratamiento</th>
             <th scope="col">Subsidio</th>
@@ -18,29 +19,49 @@
         <tbody>
 
         @foreach($agua as $n)
-            <tr>
-                <th scope="row">{{$n->id}}</th>
+  <?php
+        setlocale(LC_ALL,"es_ES");
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $mes = $meses[(date("m",strtotime($n->fecha))) - 1];
+        $fecha = strftime($mes."/%Y", strtotime($n->fecha));
+      ?>
+                  <tr>
+                      <th scope="row">{{$n->id}}</th>
                 <td>Casa</td>
-                <td>{{$n->fecha}}</td>
-                <td>{{number_format(intval($n->cargo_fijo/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->consumo_casa * $n->valor_unitario),0,",",".")}}</td>
-                <td>{{number_format(intval($n->recoleccion/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->tratamiento/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->subsidio/3),0,",",".")}}</td>
-                <td>{{number_format(intval($n->total_casa),0,",",".")}}</td>
+                <td>{{$fecha}}</td>
+                <td>${{number_format(intval($n->cargo_fijo/3),0,",",".")}}</td>
+                <td>${{number_format(intval($n->consumo_casa * $n->valor_unitario),0,",",".")}}</td>
+                <td>{{number_format(intval($n->consumo_casa),0,",",".")}}Lt</td>
+                <td>${{number_format(intval($n->recoleccion/3),0,",",".")}}</td>
+                <td>${{number_format(intval($n->tratamiento/3),0,",",".")}}</td>
+                <td>$-{{number_format(intval($n->subsidio/3),0,",",".")}}</td>
+                <td>${{number_format(intval($n->total_casa),0,",",".")}}</td>
             </tr><tr>
                 <th scope="row">{{$n->id}}</th>
                 <td>General</td>
-                <td>{{$n->fecha}}</td>
-                <td>{{number_format(intval($n->cargo_fijo),0,",",".")}}</td>
-                <td>{{number_format(intval($n->consumo * $n->valor_unitario),0,",",".")}}</td>
-                <td>{{number_format(intval($n->recoleccion),0,",",".")}}</td>
-                <td>{{number_format(intval($n->tratamiento),0,",",".")}}</td>
-                <td>{{number_format(intval($n->subsidio),0,",",".")}}</td>
-                <td>{{number_format(intval($n->total),0,",",".")}}</td>
+                <td>{{$fecha}}</td>
+                <td>${{number_format(intval($n->cargo_fijo),0,",",".")}}</td>
+                <td>${{number_format(intval($n->consumo * $n->valor_unitario),0,",",".")}}</td>
+                <td>{{number_format(intval($n->consumo),0,",",".")}}Lt</td>
+                <td>${{number_format(intval($n->recoleccion),0,",",".")}}</td>
+                <td>${{number_format(intval($n->tratamiento),0,",",".")}}</td>
+                <td>$-{{number_format(intval($n->subsidio),0,",",".")}}</td>
+                <td>${{number_format(intval($n->total),0,",",".")}}</td>
             </tr>
         @endforeach()
         </tbody>
+        <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Sector</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cargo Fijo</th>
+            <th scope="col">Consumo</th>
+            <th scope="col">Consumo (Lt)</th>
+            <th scope="col">Recolección</th>
+            <th scope="col">Tratamiento</th>
+            <th scope="col">Subsidio</th>
+            <th scope="col">Total</th>
+        </tr>
     </table>
 
 
